@@ -18,6 +18,7 @@ taskController.getTasks = async (req, res) => {
     const taskList = await Task.find({}).select("-__v");
     res.status(200).json({ status: "success", data: taskList, message: "Tasks fetched successfully" });
   } catch (error) {
+    console.log(error);
     res.status(400).json({ status: "error", error: error });
   }
 };
