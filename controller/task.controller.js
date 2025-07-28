@@ -9,7 +9,7 @@ taskController.createTask = async (req, res) => {
     await newTask.save();
     res.status(200).json({ status: "success", data: newTask, message: "Task created successfully" });
   } catch (error) {
-    res.status(400).json({ status: "error", error: error });
+    res.status(400).json({ status: "error", error: error.message });
   }
 };
 
@@ -19,7 +19,7 @@ taskController.getTasks = async (req, res) => {
     res.status(200).json({ status: "success", data: taskList, message: "Tasks fetched successfully" });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ status: "error", error: error });
+    res.status(400).json({ status: "error", error: error.message });
   }
 };
 
@@ -30,7 +30,7 @@ taskController.updateTask = async (req, res) => {
     const updatedTask = await Task.findByIdAndUpdate(id, { task, isCompleted, category }).select("-__v");
     res.status(200).json({ status: "success", data: updatedTask, message: "Task updated successfully" });
   } catch (error) {
-    res.status(400).json({ status: "error", error: error });
+    res.status(400).json({ status: "error", error: error.message });
   }
 };
 
@@ -40,7 +40,7 @@ taskController.deleteTask = async (req, res) => {
     await Task.findByIdAndDelete(id);
     res.status(200).json({ status: "success", message: "Task deleted successfully" });
   } catch (error) {
-    res.status(400).json({ status: "error", error: error });
+    res.status(400).json({ status: "error", error: error.message });
   }
 };
 
