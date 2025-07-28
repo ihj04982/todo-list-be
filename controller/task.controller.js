@@ -7,7 +7,7 @@ taskController.createTask = async (req, res) => {
     const { task, isCompleted, category } = req.body;
     const newTask = new Task({ task, isCompleted, category });
     await newTask.save();
-    res.status(200).json({ status: "success", data: newTask, message: "Task created successfully" });
+    res.status(200).json({ status: "success", data: newTask, message: "할 일이 성공적으로 생성되었습니다." });
   } catch (error) {
     res.status(400).json({ status: "error", error: error.message });
   }
@@ -16,7 +16,7 @@ taskController.createTask = async (req, res) => {
 taskController.getTasks = async (req, res) => {
   try {
     const taskList = await Task.find({}).select("-__v");
-    res.status(200).json({ status: "success", data: taskList, message: "Tasks fetched successfully" });
+    res.status(200).json({ status: "success", data: taskList, message: "할 일이 성공적으로 조회되었습니다." });
   } catch (error) {
     console.log(error);
     res.status(400).json({ status: "error", error: error.message });
@@ -28,7 +28,7 @@ taskController.updateTask = async (req, res) => {
     const { id } = req.params;
     const { task, isCompleted, category } = req.body;
     const updatedTask = await Task.findByIdAndUpdate(id, { task, isCompleted, category }).select("-__v");
-    res.status(200).json({ status: "success", data: updatedTask, message: "Task updated successfully" });
+    res.status(200).json({ status: "success", data: updatedTask, message: "할 일이 성공적으로 수정되었습니다." });
   } catch (error) {
     res.status(400).json({ status: "error", error: error.message });
   }
@@ -38,7 +38,7 @@ taskController.deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
     await Task.findByIdAndDelete(id);
-    res.status(200).json({ status: "success", message: "Task deleted successfully" });
+    res.status(200).json({ status: "success", message: "할 일이 삭제되었습니다." });
   } catch (error) {
     res.status(400).json({ status: "error", error: error.message });
   }

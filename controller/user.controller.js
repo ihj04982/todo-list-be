@@ -10,7 +10,7 @@ userController.createUser = async (req, res) => {
     const { name, email, password } = req.body;
     const user = await User.findOne({ email });
     if (user) {
-      throw new Error("User already exists");
+      throw new Error("이미 존재하는 이메일입니다.");
     }
     const salt = bcrypt.genSaltSync(saltRounds);
     const hash = bcrypt.hashSync(password, salt);
@@ -19,7 +19,7 @@ userController.createUser = async (req, res) => {
     res.status(200).json({ status: "success", message: "User created successfully" });
   } catch (error) {
     console.log(error);
-    res.status(400).json({ status: "error", message: error });
+    res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -33,10 +33,10 @@ userController.loginUser = async (req, res) => {
         const token = user.generateAuthToken();
         return res.status(200).json({ status: "success", message: "User logged in successfully", user, token });
       } else {
-        throw new Error("Invalid password");
+        throw new Error("비밀번호가 일치하지 않습니다.");
       }
     } else {
-      throw new Error("User not found");
+      throw new Error("존재하지 않는 이메일입니다.");
     }
   } catch (error) {
     res.status(400).json({ status: "error", message: error.message });
