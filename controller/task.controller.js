@@ -5,7 +5,8 @@ const taskController = {};
 taskController.createTask = async (req, res) => {
   try {
     const { task, isCompleted, category } = req.body;
-    const newTask = new Task({ task, isCompleted, category });
+    const { userId } = req;
+    const newTask = new Task({ task, isCompleted, category, author: userId });
     await newTask.save();
     res.status(200).json({ status: "success", data: newTask, message: "할 일이 성공적으로 생성되었습니다." });
   } catch (error) {
@@ -15,10 +16,9 @@ taskController.createTask = async (req, res) => {
 
 taskController.getTasks = async (req, res) => {
   try {
-    const taskList = await Task.find({}).select("-__v");
+    const taskList = await Task.find({}).populate("author").select("-__v");
     res.status(200).json({ status: "success", data: taskList, message: "할 일이 성공적으로 조회되었습니다." });
   } catch (error) {
-    console.log(error);
     res.status(400).json({ status: "error", error: error.message });
   }
 };
