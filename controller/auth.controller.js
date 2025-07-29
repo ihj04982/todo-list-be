@@ -9,7 +9,7 @@ authController.authenticate = async (req, res, next) => {
       throw new Error("invalid token");
     }
     const token = tokenString.replace("Bearer ", "");
-    const decoded = jwt.verify(token, process.env.JWT_SECRET, (error, payload) => {
+    jwt.verify(token, process.env.JWT_SECRET_KEY, (error, payload) => {
       if (error) {
         throw new Error("invalid token");
       }
@@ -17,7 +17,6 @@ authController.authenticate = async (req, res, next) => {
     });
     next();
   } catch (error) {
-    console.log(error);
     res.status(400).json({ status: "error", message: error.message });
   }
 };
