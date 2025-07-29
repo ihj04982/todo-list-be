@@ -43,4 +43,16 @@ userController.loginUser = async (req, res) => {
   }
 };
 
+userController.getUser = async (req, res) => {
+  try {
+    const { userId } = req;
+    const user = await User.findById(userId, "-__v, -createdAt, -updatedAt, -password");
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json({ status: "success", user });
+  } catch (error) {
+    res.status(400).json({ status: "error", message: error.message });
+  }
+};
 module.exports = userController;
